@@ -1,0 +1,173 @@
+* {
+    box-sizing: border-box;
+}
+
+
+html, body {
+    height: 100%;
+}
+
+html, body, .equation, .result, .buttons, .addition {
+    width: 100%;
+}
+
+
+body, .calculator, .display-background, .display, .calculation, .result, .buttons, .clean-buttons, .number-buttons, .number-buttons div, .num-manip-buttons div, .num-manip-buttons {
+    display: flex;
+}
+
+body, .calculator, .display, .clean-buttons, .number-buttons, .num-manip-buttons {
+    flex-direction: column;
+}
+
+body, .calculator, .display-background {
+    align-items: center;
+}
+
+.calculator {
+    border: 3px solid #850122;
+    width: 43rem;
+    height: 45rem;
+    background-color: #ffcccc;
+    box-shadow: #755c62 1px 1px 0,
+                #755c62 2px 2px 0,
+                #755c62 3px 3px 0,
+                #755c62 4px 4px 0,
+                #755c62 5px 5px 0,
+                #755c62 6px 6px 0,
+                #755c62 7px 7px 0,
+                #755c62 8px 8px 0,
+                #755c62 9px 9px 0;
+}
+
+.calculator, .buttons {
+    justify-content: space-evenly;
+}
+
+.buttons button:active {
+	background-color: #d93951;
+	box-shadow: #3f3c59 1px 1px 0,                #3f3c59 2px 2px 0;
+	transform: translateX(2px) translateY(2px);
+	-webkit-transform: translateX(2px) translateY(2px);
+	-moz-transform: translateX(2px) translateY(2px);
+	-ms-transform: translateX(2px) translateY(2px);
+	-o-transform: translateX(2px) translateY(2px);
+}
+
+.buttons button.active {
+	background-color: #584d6e;
+	box-shadow: #3f3c59 1px 1px 0,
+                #3f3c59 2px 2px 0,
+                #3f3c59 3px 3px 0,
+                #3f3c59 4px 4px 0;
+	transform: translateX(2px) translateY(2px);
+}
+
+
+
+.calculator, .buttons {
+    justify-content: space-evenly;
+}
+
+.display-background {
+    border: 2px solid #850122;
+    width: 85%;
+    height: 6rem;
+    justify-content: center;
+}
+
+
+.display-background, button {
+    background-color: #ffcccc;
+}
+
+.display {
+    border: 2px solid #87857f;
+    width: 96%;
+    height: 90%;
+    background-color: #a29b8e;
+    box-shadow: inset 4px 4px 4px rgba(0, 0, 0, 0.7),
+              inset -2px -2px 4px rgba(255, 255, 255, 0.4);
+    font-family: digital7, sans-serif;
+    font-size: 2rem;
+    padding: 0 0.5rem 0 0.5rem;
+}
+
+.equation {
+    justify-content: flex-start;
+}
+
+.equation, .result {
+    flex: 1;
+}
+
+.equation, .result {
+    align-items: center;
+}
+
+.result {
+    justify-content: flex-end;
+}
+
+.number-buttons div button, .perentage, .multiplier, .subtraction, .division {
+    width: 4.5rem;
+    height: 4.5rem;
+}
+
+.clean-buttons, .num-manip-buttons {
+    justify-content: space-between;
+}
+
+.all-clear-button, .clear-entry-button {
+    width: 5rem;
+}
+
+.all-clear-button, .clear-entry-button, .addition {
+    height: 9rem;
+}
+
+.number-buttons, .num-manip-buttons{
+    gap: 1rem;
+}
+
+.number-buttons div, .num-manip-buttons div {
+    gap: 0.8rem;
+}
+
+.perentage {
+    font-size: 1.5rem;
+}
+
+.addition {
+    font-size: 4rem;
+}
+
+button {
+    font-size: 2rem;
+    box-shadow: #d93951 1px 1px 0,    #d93951 2px 2px 0,                #d93951 3px 3px 0,                #d93951 4px 4px 0,                #d93951 5px 5px 0;
+    border: 2px solid #850122;
+    cursor: pointer;
+    color: #850122;
+    border-radius:10px;
+    -webkit-border-radius:10px;
+    -moz-border-radius:10px;
+    -ms-border-radius:10px;
+    -o-border-radius:10px;
+}
+
+button {
+    font-family: 'Changa', sans-serif;
+}
+
+
+@media only screen and (max-width: 790px) {
+    html {
+        font-size: 13px;
+    }
+}
+
+@media only screen and (max-width: 660px) {
+    html {
+        font-size: 10px;
+    }
+}
