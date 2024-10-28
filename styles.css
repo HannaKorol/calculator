@@ -4,23 +4,23 @@
 
 html {
   height: 100%;
-    width: 100%;
+  width: 100%;
 }
 
 body {
-      display: flex;
+  display: flex;
   background-image: url(./background-image.png);
-background-color: #ffedea;
+  background-color: #ffedea;
   background-position: center;
   background-repeat: no-repeat;
   margin: 0 auto;
   background-size: cover;
   justify-content: space-between;
   align-items: flex-start;
-    height: 100%;
-      width: 100%;
-        flex-direction: column;
-          align-items: center;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
 }
 
 .calculator {
@@ -37,53 +37,24 @@ background-color: #ffedea;
     #755c62 8px 8px 0, #755c62 9px 9px 0;
 }
 
-
-.equation,
-.result,
-.buttons,
-.addition {
+.equation {
   width: 100%;
-}
-
-
-.display-background,
-.display,
-.calculation,
-.result,
-.buttons,
-.clear-buttons,
-.number-buttons,
-.number-buttons div,
-.operator-buttons div,
-.operator-buttons {
-  display: flex;
-}
-
-
-.display,
-.clear-buttons,
-.number-buttons,
-.operator-buttons {
-  flex-direction: column;
-}
-
-
-.display-background {
+  justify-content: flex-start;
+  flex: 1;
   align-items: center;
 }
 
-/* .calculator {
-  border: 3px solid #850122;
-  width: 43rem;
-  height: 45rem;
-  background-color: #ffcccc;
-  box-shadow: #755c62 1px 1px 0, #755c62 2px 2px 0, #755c62 3px 3px 0,
-    #755c62 4px 4px 0, #755c62 5px 5px 0, #755c62 6px 6px 0, #755c62 7px 7px 0,
-    #755c62 8px 8px 0, #755c62 9px 9px 0;
-} */
+.result {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
 
-.calculator,
 .buttons {
+  width: 100%;
+  display: flex;
   justify-content: space-evenly;
 }
 
@@ -104,17 +75,71 @@ background-color: #ffedea;
   transform: translateX(2px) translateY(2px);
 }
 
+button {
+  font-size: 2rem;
+  text-align: center;
+  box-shadow: #d93951 1px 1px 0, #d93951 2px 2px 0, #d93951 3px 3px 0,
+    #d93951 4px 4px 0, #d93951 5px 5px 0;
+  border: 2px solid #850122;
+  cursor: pointer;
+  color: #850122;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+    font-family: "Changa", sans-serif;
+      background-color: #ffcccc;
+}
+
+.addition {
+  width: 100%;
+  font-size: 4rem;
+  height: 9rem;
+}
+
+.display-background,
+.calculation,
+.clear-buttons,
+.number-buttons,
+.number-buttons div,
+.operator-buttons div,
+.operator-buttons {
+  display: flex;
+}
+
+.clear-buttons,
+.number-buttons,
+.operator-buttons {
+  flex-direction: column;
+}
+
+.display-background {
+  align-items: center;
+}
+
+/* .calculator {
+  border: 3px solid #850122;
+  width: 43rem;
+  height: 45rem;
+  background-color: #ffcccc;
+  box-shadow: #755c62 1px 1px 0, #755c62 2px 2px 0, #755c62 3px 3px 0,
+    #755c62 4px 4px 0, #755c62 5px 5px 0, #755c62 6px 6px 0, #755c62 7px 7px 0,
+    #755c62 8px 8px 0, #755c62 9px 9px 0;
+} */
+
+.calculator {
+  justify-content: space-evenly;
+}
+
 .display-background {
   border: 2px solid #850122;
   width: 85%;
   height: 6rem;
   justify-content: center;
+    background-color: #ffcccc;
 }
 
-.display-background,
-button {
-  background-color: #ffcccc;
-}
 
 .display {
   border: 2px solid #87857f;
@@ -126,25 +151,8 @@ button {
   font-family: digital7, sans-serif;
   font-size: 2rem;
   padding: 0 0.5rem 0 0.5rem;
-}
-
-.equation {
-
-  justify-content: flex-start;
-}
-
-.equation,
-.result {
-  flex: 1;
-}
-
-.equation,
-.result {
-  align-items: center;
-}
-
-.result {
-  justify-content: flex-end;
+  display: flex;
+  flex-direction: column;
 }
 
 .number-buttons div button,
@@ -164,12 +172,7 @@ button {
 .c,
 .ce {
   width: 5rem;
-}
-
-.c,
-.ce,
-.addition {
-  height: 9rem;
+    height: 9rem;
 }
 
 .number-buttons,
@@ -185,30 +188,6 @@ button {
 .remainder {
   font-size: 1.5rem;
 }
-
-.addition {
-  font-size: 4rem;
-}
-
-button {
-  font-size: 2rem;
-  text-align: center;
-  box-shadow: #d93951 1px 1px 0, #d93951 2px 2px 0, #d93951 3px 3px 0,
-    #d93951 4px 4px 0, #d93951 5px 5px 0;
-  border: 2px solid #850122;
-  cursor: pointer;
-  color: #850122;
-  border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
-}
-
-button {
-  font-family: "Changa", sans-serif;
-}
-
 
 @media only screen and (max-width: 790px) {
   html {
