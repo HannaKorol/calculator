@@ -65,7 +65,49 @@ const equal = document.querySelector(".equal");
 
 //*--------------------------------------------------------------------------------------------------------------------
 
+// Handlers for inputting "numbers" and "operators"
+document
+  .querySelectorAll(".number")
+  .forEach((button) =>
+    button.addEventListener("click", () => addInput(button.textContent)) /* Add the text of the button which was pressed */
+  );
+document
+  .querySelectorAll(".operator")
+  .forEach((button) =>
+    button.addEventListener("click", () => processOperator(button.textContent))
+);
+  
 
+
+
+
+
+
+
+// Functions for processing input numbers 
+function addInput(character) {
+  if (character === ".") {
+    // Если уже есть точка, ничего не делать
+    if (input.includes(".")) return;
+    // Если это первая точка, добавляем '0' перед ней
+    if (!input) input = "0";
+  }
+  input += character; // Добавляем символ к текущему вводу
+  updateDisplay(); // Обновляем дисплей
+}
+
+
+// Functions for processing operator input
+function processOperator(operator) {
+  if (storedValue !== undefined && input) {
+    calculateResult();
+  } else if (input) {
+    storedValue = parseFloat(input);
+  }
+  input = "";
+  signThen = operator;
+  updateDisplay();
+}
 
 
 
