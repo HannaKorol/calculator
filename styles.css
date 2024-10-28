@@ -2,22 +2,40 @@
   box-sizing: border-box;
 }
 
+html {
+  height: 100%;
+    width: 100%;
+}
+
+
 body {
   background-image: url(./background-image.png);
+background-color: #ffedea;
   background-position: center;
   background-repeat: no-repeat;
   margin: 0 auto;
   background-size: cover;
+  justify-content: space-between;
+  align-items: flex-start;
+    height: 100%;
+      width: 100%;
 }
 
-html,
-body {
-  height: 100%;
-  background-color: #ffedea;
+.calculator {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  border: 3px solid #850122;
+  width: 43rem;
+  height: 45rem;
+  background-color: #ffcccc;
+  box-shadow: #755c62 1px 1px 0, #755c62 2px 2px 0, #755c62 3px 3px 0,
+    #755c62 4px 4px 0, #755c62 5px 5px 0, #755c62 6px 6px 0, #755c62 7px 7px 0,
+    #755c62 8px 8px 0, #755c62 9px 9px 0;
 }
 
-html,
-body,
+
 .equation,
 .result,
 .buttons,
@@ -26,7 +44,6 @@ body,
 }
 
 body,
-.calculator,
 .display-background,
 .display,
 .calculation,
@@ -41,7 +58,6 @@ body,
 }
 
 body,
-.calculator,
 .display,
 .clean-buttons,
 .number-buttons,
@@ -50,12 +66,11 @@ body,
 }
 
 body,
-.calculator,
 .display-background {
   align-items: center;
 }
 
-.calculator {
+/* .calculator {
   border: 3px solid #850122;
   width: 43rem;
   height: 45rem;
@@ -63,7 +78,7 @@ body,
   box-shadow: #755c62 1px 1px 0, #755c62 2px 2px 0, #755c62 3px 3px 0,
     #755c62 4px 4px 0, #755c62 5px 5px 0, #755c62 6px 6px 0, #755c62 7px 7px 0,
     #755c62 8px 8px 0, #755c62 9px 9px 0;
-}
+} */
 
 .calculator,
 .buttons {
@@ -85,11 +100,6 @@ body,
   box-shadow: #3f3c59 1px 1px 0, #3f3c59 2px 2px 0, #3f3c59 3px 3px 0,
     #3f3c59 4px 4px 0;
   transform: translateX(2px) translateY(2px);
-}
-
-.calculator,
-.buttons {
-  justify-content: space-evenly;
 }
 
 .display-background {
@@ -195,6 +205,7 @@ button {
 button {
   font-family: "Changa", sans-serif;
 }
+
 
 @media only screen and (max-width: 790px) {
   html {
