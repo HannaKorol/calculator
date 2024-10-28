@@ -7,8 +7,8 @@ html {
     width: 100%;
 }
 
-
 body {
+      display: flex;
   background-image: url(./background-image.png);
 background-color: #ffedea;
   background-position: center;
@@ -19,6 +19,8 @@ background-color: #ffedea;
   align-items: flex-start;
     height: 100%;
       width: 100%;
+        flex-direction: column;
+          align-items: center;
 }
 
 .calculator {
@@ -43,29 +45,29 @@ background-color: #ffedea;
   width: 100%;
 }
 
-body,
+
 .display-background,
 .display,
 .calculation,
 .result,
 .buttons,
-.clean-buttons,
+.clear-buttons,
 .number-buttons,
 .number-buttons div,
-.num-manip-buttons div,
-.num-manip-buttons {
+.operator-buttons div,
+.operator-buttons {
   display: flex;
 }
 
-body,
+
 .display,
-.clean-buttons,
+.clear-buttons,
 .number-buttons,
-.num-manip-buttons {
+.operator-buttons {
   flex-direction: column;
 }
 
-body,
+
 .display-background {
   align-items: center;
 }
@@ -127,6 +129,7 @@ button {
 }
 
 .equation {
+
   justify-content: flex-start;
 }
 
@@ -145,41 +148,41 @@ button {
 }
 
 .number-buttons div button,
-.perentage,
-.multiplier,
+.remainder,
+.multiplication,
 .subtraction,
 .division {
   width: 4.5rem;
   height: 4.5rem;
 }
 
-.clean-buttons,
-.num-manip-buttons {
+.clear-buttons,
+.operator-buttons {
   justify-content: space-between;
 }
 
-.all-clear-button,
-.clear-entry-button {
+.c,
+.ce {
   width: 5rem;
 }
 
-.all-clear-button,
-.clear-entry-button,
+.c,
+.ce,
 .addition {
   height: 9rem;
 }
 
 .number-buttons,
-.num-manip-buttons {
+.operator-buttons {
   gap: 1rem;
 }
 
 .number-buttons div,
-.num-manip-buttons div {
+.operator-buttons div {
   gap: 0.8rem;
 }
 
-.perentage {
+.remainder {
   font-size: 1.5rem;
 }
 
