@@ -28,8 +28,6 @@
 
 //*--------------------------------------------------------------------------------------------------------------------
 
-
-
 /* 2) Calculation consists:
      a number,                                                                   //add className="number"
      an operator,                                                                //add className="operator"
@@ -38,30 +36,30 @@
 11)Display an error message if the user tries to divide by 0 
 12) 12.3.56.5. It is hard to do math on these numbers. (disable the decimal button if there’s already one in the display) */
 
-
-/* 1) Arithmetic functions in object "operations" */                                                                         //!Arithmetic functions
+/* 1) Arithmetic functions in object "operations" */ //!Arithmetic functions
 const operations = {
   "+": (n1, n2) => n1 + n2,
   "-": (n1, n2) => n1 - n2,
   "*": (n1, n2) =>
     parseFloat(
       (n1 * n2).toFixed(5)
-    ) /* parseFloat - take only numbers and .toFixed(10) will take 10 bumbers after . */,
+    ) /* parseFloat - take only numbers and .toFixed(10) will take 10 numbers after . */,
   "÷": (n1, n2) =>
     n2 === 0
       ? "ERROR"
       : parseFloat(
           (n1 / n2).toFixed(5)
         ) /* parseFloat - take only numbers and .toFixed(10) will take 10 bumbers after . */,
+  "/": (n1, n2) => (n2 === 0 ? "ERROR" : n1 / n2),
   "%": (n1, n2) => (n2 === 0 ? "ERROR" : n1 % n2),
 };
 
 //*--------------------------------------------------------------------------------------------------------------------
 
 /*   2) Calculation consists:                                              
-     a number,                                                                   //add className="number"
-     an operator,                                                                //add className="operator"
-      and another number; */
+       a number,                                                                   //add className="number"
+       an operator,                                                                //add className="operator"
+        and another number; */
 
 // Elements DOM
 const equation = document.querySelector(".equation");
@@ -72,11 +70,25 @@ const equal = document.querySelector(".equal");
 
 //*--------------------------------------------------------------------------------------------------------------------
 
-                                                                                                                   //! Variables for data storage
+//! Variables for data storage
 let storedValue; // shows the calculation result
 let input = "";
 let signThen; //key to obj that contains an operation sign, e.g. “+”, “-”, “*”, “/”.
 let calculationComplete = false; // New flag for completed calculation
+
+//*------------------------------------------
+
+// Handlers for inputting "numbers" and "operators"                                                                          //!Number and operator buttons
+document
+  .querySelectorAll(".number")
+  .forEach((button) =>
+    button.addEventListener("click", () => handleInput(button.textContent))
+  );
+document
+  .querySelectorAll(".operator")
+  .forEach((button) =>
+    button.addEventListener("click", () => processOperator(button.textContent))
+  );
 
 //*--------------------------------------------------------------------------------------------------------------------
 // Unified input handling for numbers and operators
@@ -99,29 +111,38 @@ function handleInput(character) {
   updateDisplay();
 }
 
-//*------------------------------------------
+//*--------------------------------------------------------------------------------------------------------------------
 
-// Handlers for inputting "numbers" and "operators"                                                                          //!Number and operator buttons
-document
-  .querySelectorAll(".number")
-  .forEach((button) =>
-    button.addEventListener("click", () => handleInput(button.textContent))
-  );
-document
-  .querySelectorAll(".operator")
-  .forEach((button) =>
-    button.addEventListener("click", () => processOperator(button.textContent))
-  );
+function processOperator(operator) {
+  // If the calculation is completed, allow only operator input and clear
+  if (calculationComplete || result.textContent === "ERROR") {
+    calculationComplete = false;
 
+    if (result.textContent !== "ERROR") {
+      storedValue = parseFloat(result.textContent);
+    }
+    input = "";
+  }
+
+  if (storedValue !== undefined && input) {
+    calculateResult();
+  } else if (input) {
+    storedValue = parseFloat(input);
+  }
+  input = "";
+  signThen = operator;
+  updateDisplay();
+}
 
 //*--------------------------------------------------------------------------------------------------------------------
 
 // Adding keystroke handling for inputs                                                                                      //!Keystroke handling
 window.addEventListener("keydown", (event) => {
+  // event.preventDefault()
   const key = event.key;
-  if (!isNaN(key) || key === '.') {
+  if (!isNaN(key) || key === ".") {
     handleInput(key);
-  } else if (Object.keys(operations).includes(key)) {
+  } else if (["+", "-", "*", "/", "÷", "%"].includes(key)) {
     processOperator(key);
   } else if (key === "Enter" || key === "=") {
     calculateResult();
@@ -133,42 +154,32 @@ window.addEventListener("keydown", (event) => {
 });
 
 //*--------------------------------------------------------------------------------------------------------------------
-
-function processOperator(operator) {                                                                           
-    // If the calculation is completed, allow only operator input and clear 
-    if (calculationComplete || result.textContent === "ERROR") {
-    calculationComplete = false;
-    if (result.textContent !== "ERROR") {
-      storedValue = parseFloat(result.textContent); 
-    }
-    input = "";
-    }
-    
-  if (storedValue !== undefined && input) {
-    calculateResult();
-  } else if (input) {
-    storedValue = parseFloat(input);
-  }
-  input = "";
-  signThen = operator;
-  updateDisplay();
-}
-
-
-//*--------------------------------------------------------------------------------------------------------------------
 // 13) Add a “backspace” button, so the user can undo if they click the wrong number.
 
 // CE and C button                                                                                                        //!DELETE buttons
-ce.addEventListener("click", clearEntry);                         
+ce.addEventListener("click", clearEntry);
 c.addEventListener("click", clearAll);
+
+// Clearing the last input (CE)                                                                                           //!Clear functions
+function clearEntry() {
+  input = "";
+  updateDisplay();
+}
+
+function clearAll() {
+  input = "";
+  storedValue = undefined;
+  signThen = undefined;
+  result.textContent = "";
+  calculationComplete = false;
+  updateDisplay();
+}
 
 //*--------------------------------------------------------------------------------------------------------------------
 //  9)Pressing = before entering all of the numbers or an operator could cause problems!
 
 // Processing of the “=” button for calculation
 equal.addEventListener("click", calculateResult); // Added for the “=” button                                                 //! "=" button
-
-//*--------------------------------------------------------------------------------------------------------------------
 
 // Perform calculation of numbers provided  and update the result of the culculation
 function calculateResult() {
@@ -182,43 +193,25 @@ function calculateResult() {
 
     if (storedValue === "ERROR") {
       result.textContent = "ERROR";
-      calculationComplete = true; 
+      calculationComplete = true;
     } else {
       result.textContent = storedValue;
-      calculationComplete = true; 
+      calculationComplete = true;
     }
 
-    input = ""; 
-    signThen = undefined; 
+    input = "";
+    signThen = undefined;
   }
-  updateDisplay(); 
-}
-
-//*--------------------------------------------------------------------------------------------------------------------
-
-// Clearing the last input (CE)                                                                                           //!Clear functions
-function clearEntry() {
-  input = "";
-  updateDisplay();
-}
-
-function clearAll() {
-  input = "";
-  storedValue = undefined;
-  signThen = undefined;
-  result.textContent = "";
-  calculationComplete = false; 
   updateDisplay();
 }
 
 //*--------------------------------------------------------------------------------------------------------------------
 
-// Display "equation" Update function                                                              
+// Display "equation" Update function
 function updateDisplay() {
-  equation.textContent = `${storedValue || ""} ${signThen || ""} ${
+  equation.textContent = `${storedValue || ""} ${signThen || ""}   ${
     input || ""
   }`;
 }
 
 //*--------------------------------------------------------------------------------------------------------------------
-
