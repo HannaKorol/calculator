@@ -1,65 +1,14 @@
-/* //// 1) Create function add, subtract, multiply and divide;                   // add objects with functions
-             1.1) Test this function in console;
-
-  // 2) Calculation consists:                                              
-   ////  a number,                                                                   //add className="number"
-    ///// an operator,                                                                //add className="operator"
-     ///// and another number;                     
-      
-   3) Create three variables for each of the parts of a calculator operation.
-   4)Create a new function "operate" that takes "an operator" and "2 numbers" and then calls one of the above functions on the numbers. 
-      /////  5)Create a basic HTML calculator with "buttons for each digit", each of the above functions and an “Equals” key.
-        /////5.1)There should also be a display for the calculator.
-       ///// 5.2)Add a “clear” button
-      /////  6)Create the functions that populate the display when you click the number buttons. 
-   6.1) You should be storing the ‘display value’ in a variable somewhere for use in the next step.
-   7)You’ll need to store the first number and second number that are input into the calculator, utilize the operator that the user selects, and then operate() on the two numbers when the user presses the “=” key. 
-   7.1)You should already have the code that can populate the display, so once operate() has been called, update the display with the ‘solution’ to the operation.
-  // 7.2)Store all the values and call the operate function with them. 
-   //8)Round answers with long decimals so that they don’t overflow the screen.
-  // 9)Pressing = before entering all of the numbers or an operator could cause problems!
-   //10) Pressing “clear” should wipe out any existing data.
-  // 11) Display an error message if the user tries to divide by 0
-   //12) 12.3.56.5. It is hard to do math on these numbers. (disable the decimal button if there’s already one in the display)
- ////  13) Add a “backspace” button, so the user can undo if they click the wrong number.
-   14) Add keyboard support!
-   
-   */
-
-//*--------------------------------------------------------------------------------------------------------------------
-
-/* 2) Calculation consists:
-     a number,                                                                   //add className="number"
-     an operator,                                                                //add className="operator"
-      and another number;  
- 8)Round answers with long decimals so that they don’t overflow the screen.
-11)Display an error message if the user tries to divide by 0 
-12) 12.3.56.5. It is hard to do math on these numbers. (disable the decimal button if there’s already one in the display) */
-
 /* 1) Arithmetic functions in object "operations" */ //!Arithmetic functions
 const operations = {
   "+": (n1, n2) => n1 + n2,
   "-": (n1, n2) => n1 - n2,
-  "*": (n1, n2) =>
-    parseFloat(
-      (n1 * n2).toFixed(5)
-    ) /* parseFloat - take only numbers and .toFixed(10) will take 10 numbers after . */,
-  "÷": (n1, n2) =>
-    n2 === 0
-      ? "ERROR"
-      : parseFloat(
-          (n1 / n2).toFixed(5)
-        ) /* parseFloat - take only numbers and .toFixed(10) will take 10 bumbers after . */,
+  "*": (n1, n2) => parseFloat((n1 * n2).toFixed(5)) /* parseFloat - take only numbers and .toFixed(10) will take 10 numbers after . */,
+  "÷": (n1, n2) => (n2 === 0 ? "ERROR" : parseFloat((n1 / n2).toFixed(5))) /* parseFloat - take only numbers and .toFixed(10) will take 10 bumbers after . */,
   "/": (n1, n2) => (n2 === 0 ? "ERROR" : n1 / n2),
   "%": (n1, n2) => (n2 === 0 ? "ERROR" : n1 % n2),
 };
 
 //*--------------------------------------------------------------------------------------------------------------------
-
-/*   2) Calculation consists:                                              
-       a number,                                                                   //add className="number"
-       an operator,                                                                //add className="operator"
-        and another number; */
 
 // Elements DOM
 const equation = document.querySelector(".equation");
@@ -75,6 +24,7 @@ let storedValue; // shows the calculation result
 let input = "";
 let signThen; //key to obj that contains an operation sign, e.g. “+”, “-”, “*”, “/”.
 let calculationComplete = false; // New flag for completed calculation
+let resultDisplayed = false; // флаг для проверки, отображается ли результат
 
 //*------------------------------------------
 
@@ -91,81 +41,88 @@ document
   );
 
 //*--------------------------------------------------------------------------------------------------------------------
-// Если была ошибка или завершенное вычисление, начинаем новый ввод
+// Handle number input
 function handleInput(character) {
-  if (calculationComplete || result.textContent === "ERROR") {
-    input = "";
-    calculationComplete = false;
+  // If result is displayed, clear the input
+  if (resultDisplayed) {
+    input = ""; // Clear current value
+    result.textContent = ""; // Clear result
+    resultDisplayed = false; // Reset flag
   }
 
-  // Очищаем экран только если это была ошибка, иначе результат остаётся
+  // If there's a previous calculation or an error, reset
+  if (calculationComplete || result.textContent === "ERROR") {
+    input = ""; // Reset input
+    calculationComplete = false; // Reset completion flag
+  }
+
+  // Clear screen if there's an error
   if (result.textContent === "ERROR") {
     result.textContent = "";
-    equation.textContent = ""; // Сбрасываем верхний экран при ошибке
+    equation.textContent = ""; // Clear the upper screen on error
   }
 
-  // Блокируем ввод, если превышена длина
+  // Limit input length
   if (input.length >= 12) return;
 
-  // Проверяем ввод десятичной точки
+  // Check for decimal point
   if (character === ".") {
-    if (input.includes(".")) return;
-    if (!input) input = "0"; // Добавляем '0' перед точкой, если начало ввода
+    if (input.includes(".")) return; // Prevent multiple decimal points
+    if (!input) input = "0"; // Add '0' before point if beginning input
   }
 
-  input += character; // Добавляем символ в строку
-  updateDisplay(); // Обновляем экран
+  input += character; // Add symbol to the string
+  updateDisplay(); // Update screen
 }
 
 //*--------------------------------------------------------------------------------------------------------------------
 
+// Handle operator input
 function processOperator(operator) {
-  // Проверяем, если последний результат был ошибкой, блокируем ввод оператора
+  // Prevent operator input if last result was an error
   if (result.textContent === "ERROR") return;
 
-  // Если ввод был завершен (напр. после `=`), используем сохраненный результат
+  // Use saved result if calculation is complete
   if (calculationComplete) {
-    calculationComplete = false; // Сбрасываем флаг завершения вычисления
-    storedValue = parseFloat(result.textContent); // Используем сохраненный результат
-    input = ""; // Сбрасываем текущее значение
-    result.textContent = ""; // Очищаем нижний дисплей перед началом новой операции
+    calculationComplete = false; // Reset completion flag
+    storedValue = parseFloat(result.textContent); // Use saved result
+    input = ""; // Clear current value
+    result.textContent = ""; // Clear lower display before new operation
   }
 
-  // Если введено предыдущее число и оператор, выполняем вычисление
+  // Calculate result if previous number and operator exist
   if (storedValue !== undefined && input) {
-    calculateResult();
+    calculateResult(); // Perform calculation
   } else if (input) {
-    // Сохраняем текущее введенное число в `storedValue`
-    storedValue = parseFloat(input);
+    storedValue = parseFloat(input); // Save current input
   }
-  input = ""; // Очищаем ввод для следующего числа
-  signThen = operator; // Запоминаем оператор
-  updateDisplay(); // Обновляем экран
+  input = ""; // Clear input for next number
+  signThen = operator; // Remember operator
+  updateDisplay(); // Update screen
 }
 
 //*--------------------------------------------------------------------------------------------------------------------
 
-// Обработчик событий клавиатуры                                                                                      //!Keystroke handling
+// Keyboard event handler                                                                                   //!Keystroke handling
 window.addEventListener("keydown", (event) => {
   // event.preventDefault()
   const key = event.key;
 
   if (!isNaN(key) || key === ".") {
-    handleInput(key); // Ввод чисел и точки
+    handleInput(key); // Input numbers and point
   } else if (["+", "-", "*", "/", "÷", "%"].includes(key)) {
-    processOperator(key); // Ввод операторов
+    processOperator(key); // Input operators
   } else if (key === "Enter" || key === "=") {
-    event.preventDefault(); // Предотвращаем стандартное поведение Enter
-    calculateResult(); // Выполняем расчет
+    event.preventDefault(); // Prevent default Enter behavior
+    calculateResult(); // Perform calculation
   } else if (key === "Backspace") {
-    clearEntry(); // Очистка последнего ввода (CE)
+    clearEntry(); // Clear last input (CE)
   } else if (key === "Escape") {
-    clearAll(); // Полная очистка (C)
+    clearAll(); // Full clear (C)
   }
 });
 
 //*--------------------------------------------------------------------------------------------------------------------
-// 13) Add a “backspace” button, so the user can undo if they click the wrong number.
 
 // CE and C button                                                                                                        //!DELETE buttons
 ce.addEventListener("click", clearEntry);
@@ -173,63 +130,65 @@ c.addEventListener("click", clearAll);
 
 // Clearing the last input (CE)                                                                                           //!Clear functions
 function clearEntry() {
-  input = "";
-  updateDisplay();
+  input = ""; // Clear current value
+  updateDisplay(); // Update screen
 }
 
+// Full clear (C)
 function clearAll() {
-  input = "";
-  storedValue = undefined;
-  signThen = undefined;
-  result.textContent = "";
-  equation.textContent = "";
-  calculationComplete = false;
-  updateDisplay();
+  input = ""; // Clear current value
+  storedValue = undefined; // Reset stored value
+  signThen = undefined; // Reset operator
+  result.textContent = ""; // Clear result
+  equation.textContent = ""; // Clear equation
+  calculationComplete = false; // Reset completion flag
+  resultDisplayed = false; // Reset result display flag
+  updateDisplay(); // Update screen
 }
 
 //*--------------------------------------------------------------------------------------------------------------------
-//  9)Pressing = before entering all of the numbers or an operator could cause problems!
 
 // Processing of the “=” button for calculation
-equal.addEventListener("click", calculateResult); // Added for the “=” button                                                 //! "=" button
+equal.addEventListener("click", calculateResult); // "=" button                                               //! "=" button
 
-// Perform calculation of numbers provided  and update the result of the culculation
+// Perform calculation and update the result
 function calculateResult() {
   console.log("calculateResult called");
   console.log("storedValue:", storedValue);
   console.log("input:", input);
   console.log("signThen:", signThen);
 
-  // Выполняем вычисление только если оператор и числа определены
+  // Perform calculation only if operator and numbers are defined
   if (signThen && storedValue !== undefined && input) {
     storedValue = operations[signThen](storedValue, parseFloat(input));
 
     if (storedValue === "ERROR") {
-      result.textContent = "ERROR"; // Показываем ошибку
+      result.textContent = "ERROR"; // Show error
       equation.textContent = ""; //!Clearing the upper display in case of an error
       storedValue = undefined; //! Reset variables
       signThen = undefined; //! Reset variables
       input = ""; //! Reset variables
-      calculationComplete = true;
+      calculationComplete = true; // Set completion flag
+      resultDisplayed = true; // Set result display flag
     } else {
-      result.textContent = storedValue;
-      calculationComplete = true;
+      result.textContent = storedValue; // Show result
+      calculationComplete = true; // Set completion flag
+      resultDisplayed = true; // Set result display flag
     }
 
-    input = "";
-    signThen = undefined;
-
+    input = ""; // Clear input
+    signThen = undefined; // Reset operator
   }
-  updateDisplay();
+  updateDisplay(); // Update display
 }
 
 //*--------------------------------------------------------------------------------------------------------------------
 
-// Display "equation" Update function
+// Display update function
 function updateDisplay() {
   equation.textContent = `${storedValue || ""} ${signThen || ""}   ${
     input || ""
-  }`;
+  }`; // Update equation display
 }
 
 //*--------------------------------------------------------------------------------------------------------------------
