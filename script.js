@@ -91,65 +91,76 @@ document
   );
 
 //*--------------------------------------------------------------------------------------------------------------------
-// Unified input handling for numbers and operators
+// Если была ошибка или завершенное вычисление, начинаем новый ввод
 function handleInput(character) {
   if (calculationComplete || result.textContent === "ERROR") {
     input = "";
     calculationComplete = false;
-    result.textContent = "";
   }
 
-  // Prevent input length from exceeding 12 characters
+  // Очищаем экран только если это была ошибка, иначе результат остаётся
+  if (result.textContent === "ERROR") {
+    result.textContent = "";
+    equation.textContent = ""; // Сбрасываем верхний экран при ошибке
+  }
+
+  // Блокируем ввод, если превышена длина
   if (input.length >= 12) return;
 
+  // Проверяем ввод десятичной точки
   if (character === ".") {
     if (input.includes(".")) return;
-    if (!input) input = "0"; // Add '0' before dot if input is empty
+    if (!input) input = "0"; // Добавляем '0' перед точкой, если начало ввода
   }
 
-  input += character;
-  updateDisplay();
+  input += character; // Добавляем символ в строку
+  updateDisplay(); // Обновляем экран
 }
 
 //*--------------------------------------------------------------------------------------------------------------------
 
 function processOperator(operator) {
-  // If the calculation is completed, allow only operator input and clear
-  if (calculationComplete || result.textContent === "ERROR") {
-    calculationComplete = false;
+  // Проверяем, если последний результат был ошибкой, блокируем ввод оператора
+  if (result.textContent === "ERROR") return;
 
-    if (result.textContent !== "ERROR") {
-      storedValue = parseFloat(result.textContent);
-    }
-    input = "";
+  // Если ввод был завершен (напр. после `=`), используем сохраненный результат
+  if (calculationComplete) {
+    calculationComplete = false; // Сбрасываем флаг завершения вычисления
+    storedValue = parseFloat(result.textContent); // Используем сохраненный результат
+    input = ""; // Сбрасываем текущее значение
+    result.textContent = ""; // Очищаем нижний дисплей перед началом новой операции
   }
 
+  // Если введено предыдущее число и оператор, выполняем вычисление
   if (storedValue !== undefined && input) {
     calculateResult();
   } else if (input) {
+    // Сохраняем текущее введенное число в `storedValue`
     storedValue = parseFloat(input);
   }
-  input = "";
-  signThen = operator;
-  updateDisplay();
+  input = ""; // Очищаем ввод для следующего числа
+  signThen = operator; // Запоминаем оператор
+  updateDisplay(); // Обновляем экран
 }
 
 //*--------------------------------------------------------------------------------------------------------------------
 
-// Adding keystroke handling for inputs                                                                                      //!Keystroke handling
+// Обработчик событий клавиатуры                                                                                      //!Keystroke handling
 window.addEventListener("keydown", (event) => {
   // event.preventDefault()
   const key = event.key;
+
   if (!isNaN(key) || key === ".") {
-    handleInput(key);
+    handleInput(key); // Ввод чисел и точки
   } else if (["+", "-", "*", "/", "÷", "%"].includes(key)) {
-    processOperator(key);
+    processOperator(key); // Ввод операторов
   } else if (key === "Enter" || key === "=") {
-    calculateResult();
+    event.preventDefault(); // Предотвращаем стандартное поведение Enter
+    calculateResult(); // Выполняем расчет
   } else if (key === "Backspace") {
-    clearEntry();
+    clearEntry(); // Очистка последнего ввода (CE)
   } else if (key === "Escape") {
-    clearAll();
+    clearAll(); // Полная очистка (C)
   }
 });
 
@@ -171,6 +182,7 @@ function clearAll() {
   storedValue = undefined;
   signThen = undefined;
   result.textContent = "";
+  equation.textContent = "";
   calculationComplete = false;
   updateDisplay();
 }
@@ -188,11 +200,16 @@ function calculateResult() {
   console.log("input:", input);
   console.log("signThen:", signThen);
 
+  // Выполняем вычисление только если оператор и числа определены
   if (signThen && storedValue !== undefined && input) {
     storedValue = operations[signThen](storedValue, parseFloat(input));
 
     if (storedValue === "ERROR") {
-      result.textContent = "ERROR";
+      result.textContent = "ERROR"; // Показываем ошибку
+      equation.textContent = ""; //!Clearing the upper display in case of an error
+      storedValue = undefined; //! Reset variables
+      signThen = undefined; //! Reset variables
+      input = ""; //! Reset variables
       calculationComplete = true;
     } else {
       result.textContent = storedValue;
@@ -201,6 +218,7 @@ function calculateResult() {
 
     input = "";
     signThen = undefined;
+
   }
   updateDisplay();
 }
