@@ -68,10 +68,11 @@ body {
   -o-transform: translateX(2px) translateY(2px);
 }
 
+/* For keydown buttons on the keyboard */
 .buttons button.active {
-  background-color: #584d6e;
-  box-shadow: #3f3c59 1px 1px 0, #3f3c59 2px 2px 0, #3f3c59 3px 3px 0,
-    #3f3c59 4px 4px 0;
+  background-color:  #d93951;
+  box-shadow:  #d93951 1px 1px 0,  #d93951 2px 2px 0,  #d93951 3px 3px 0,
+     #d93951 4px 4px 0;
   transform: translateX(2px) translateY(2px);
 }
 

@@ -104,11 +104,32 @@ function processOperator(operator) {
 
 //*--------------------------------------------------------------------------------------------------------------------
 
+// Функция для имитации нажатия кнопки
+function pressButton(key) {
+  const button = document.querySelector(`.buttons button[data-key="${key}"]`);
+  if (button) {
+    button.classList.add("active"); // Добавляем эффект нажатия
+    setTimeout(() => {
+      button.classList.remove("active"); // Убираем эффект через 150мс
+    }, 150);
+  }
+}
+
+
+
 // Keyboard event handler                                                                                   //!Keystroke handling
 window.addEventListener("keydown", (event) => {
   // event.preventDefault()
   const key = event.key;
 
+
+
+  // Вызываем функцию для визуального нажатия кнопки
+  pressButton(key);
+
+
+
+  
   // Prevent opening Quick Find for the "/" key
   if (key === "/") {
     event.preventDefault(); // Prevent default behavior
