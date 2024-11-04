@@ -107,6 +107,11 @@ function processOperator(operator) {
 // Функция для имитации нажатия кнопки
 function pressButton(key) {
   const button = document.querySelector(`.buttons button[data-key="${key}"]`);
+  //[data-key="${key}"] Это атрибутный селектор. Он ищет элемент, у которого есть атрибут data-key с определённым значением.
+  //data-key — это пользовательский атрибут (data-атрибут), который может быть добавлен к элементам HTML для хранения дополнительной информации.
+//${key} — это шаблонная строка, которая использует интерполяцию для вставки значения переменной key. Таким образом, key будет заменён на его текущее значение.
+  
+  
   if (button) {
     button.classList.add("active"); // Добавляем эффект нажатия
     setTimeout(() => {
@@ -116,20 +121,16 @@ function pressButton(key) {
 }
 
 
-
 // Keyboard event handler                                                                                   //!Keystroke handling
 window.addEventListener("keydown", (event) => {
   // event.preventDefault()
   const key = event.key;
 
 
-
   // Вызываем функцию для визуального нажатия кнопки
   pressButton(key);
 
 
-
-  
   // Prevent opening Quick Find for the "/" key
   if (key === "/") {
     event.preventDefault(); // Prevent default behavior

@@ -1,59 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Calculator</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
     <script src="script.js" defer></script>
-</head>
-<body>
-<div class="calculator">
-    <div class="display-background">
+  </head>
+  <body>
+    <div class="calculator">
+      <div class="display-background">
         <div class="display">
-            <div class="equation"></div>
-            <div class="result"></div>
+          <div class="equation"></div>
+          <div class="result"></div>
         </div>
-    </div>
-    <div class="buttons">
+      </div>
+      <div class="buttons">
         <div class="clear-buttons">
-        <button class="ce" data-key="Escape">CE</button>
-        <button class="c" data-key="Backspace">C</button>
+          <button class="ce" data-key="Escape">CE</button>
+          <button class="c" data-key="Backspace">C</button>
         </div>
-    <div class="number-buttons">
-        <div class="n7-9">
-            <button class="number" id ="n7" data-key="7">7</button>
-            <button class="number" id ="n8" data-key="8">8</button>
-            <button class="number" id ="n9" data-key="9">9</button>
-        </div>
-        <div class="but4-6">
-            <button class="number" id ="n4" data-key="4">4</button>
-            <button class="number" id ="n5" data-key="5">5</button>
-            <button class="number" id ="n6" data-key="6">6</button>
-        </div>
-        <div class="but1-3">
-            <button class="number" id ="n1" data-key="1">1</button>
-            <button class="number" id ="n2" data-key="2">2</button>
-            <button class="number" id ="n3" data-key="3">3</button>
-        </div>
-        <div class="but0-equal">
-            <button class="number" id ="n0" data-key="0">0</button>
+        <div class="number-buttons">
+          <div class="n7-9">
+            <button class="number" id="n7" data-key="7">7</button>
+            <button class="number" id="n8" data-key="8">8</button>
+            <button class="number" id="n9" data-key="9">9</button>
+          </div>
+          <div class="but4-6">
+            <button class="number" id="n4" data-key="4">4</button>
+            <button class="number" id="n5" data-key="5">5</button>
+            <button class="number" id="n6" data-key="6">6</button>
+          </div>
+          <div class="but1-3">
+            <button class="number" id="n1" data-key="1">1</button>
+            <button class="number" id="n2" data-key="2">2</button>
+            <button class="number" id="n3" data-key="3">3</button>
+          </div>
+          <div class="but0-equal">
+            <button class="number" id="n0" data-key="0">0</button>
             <button class="number" id="d-point" data-key=".">.</button>
             <button class="equal" data-key="Enter">=</button>
+          </div>
         </div>
-    </div>
-    <div class="operator-buttons">
-        <div class="remainder-and-multiplication">
-            <button class="operator remainder" data-key="%">%</button>
+        <div class="operator-buttons">
+          <div class="remainder-and-multiplication">
+            <!--             <button class="operator remainder"  data-key="%">%</button> -->
+
+            <button class="operator remainder" data-key="%"  onclick="window.open('https://tuta.com/support', '_blank')">
+              <img
+                src="tuta_logo.png"
+                alt="tuta_logo"
+                class="operator-image"
+              />
+            </button>
+
             <button class="operator multiplication" data-key="*">*</button>
-        </div>
-        <div class="subtraction-and-division">
+          </div>
+          <div class="subtraction-and-division">
             <button class="operator subtraction" data-key="-">-</button>
             <button class="operator division" data-key="/">÷</button>
+          </div>
+          <button class="operator addition" data-key="+">+</button>
         </div>
-            <button class="operator addition" data-key="+">+</button>
+      </div>
     </div>
-</div>
-</div>
-</body>
+  </body>
 </html>
