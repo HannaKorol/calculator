@@ -71,6 +71,7 @@ function handleInput(character) {
     if (!input) input = "0"; // Add '0' before point if beginning input
   }
 
+  
   input += character; // Add symbol to the string
   updateDisplay(); // Update screen
 }
@@ -108,7 +109,16 @@ window.addEventListener("keydown", (event) => {
   // event.preventDefault()
   const key = event.key;
 
+  // Prevent opening Quick Find for the "/" key
+  if (key === "/") {
+    event.preventDefault(); // Prevent default behavior
+    processOperator("/"); // Call your operator processing function
+    return; // Exit the handler
+  }
+
+  //if key is a number or key is a decimal point, the condition will be met.
   if (!isNaN(key) || key === ".") {
+    console.log("Valid input: " + key);
     handleInput(key); // Input numbers and point
   } else if (["+", "-", "*", "/", "÷", "%"].includes(key)) {
     processOperator(key); // Input operators
